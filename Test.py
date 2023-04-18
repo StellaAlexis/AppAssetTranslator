@@ -1,9 +1,10 @@
-import yaml
 import pandas as pd
 import xml.etree.ElementTree as Et
+
+import ConfigUtil
 import Constants
 
-config = yaml.safe_load(open("config.yaml"))
+config = ConfigUtil.get_config()
 dataframe = pd.read_csv(f"{config[Constants.KEY_CONFIG_TRANSLATION_FILE_PATH]}", delimiter=";")
 print(dataframe.head())
 print()
