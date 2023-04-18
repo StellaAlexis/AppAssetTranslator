@@ -148,6 +148,6 @@ def generate_csv_from_resource_files(languages):
 
 
 result = get_languages()
-# [generate_language_resource_files(x) for x in result]
+[generate_language_resource_files(x) for x in result]
 
 generate_csv_from_resource_files(result)
