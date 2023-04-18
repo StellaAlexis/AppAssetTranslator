@@ -12,8 +12,20 @@ def get_language_details(language):
     current_language_key = list(language.keys())[0]
     language = language[current_language_key]
 
-    string_path = language[Constants.KEY_CONFIG_STRINGS_PATH]
-    xml_path = language[Constants.KEY_CONFIG_XML_PATH]
+    string_path_defined = Constants.KEY_CONFIG_STRINGS_PATH in language
+    xml_path_defined = Constants.KEY_CONFIG_XML_PATH in language
+
+    # If the attribute does not exist, set the path to None
+    if not string_path_defined:
+        string_path = None
+    else:
+        string_path = language[Constants.KEY_CONFIG_STRINGS_PATH]
+
+    # If the attribute does not exist, set the path to None
+    if not xml_path_defined:
+        xml_path = None
+    else:
+        xml_path = language[Constants.KEY_CONFIG_XML_PATH]
 
     if xml_path is None and string_path is None:
         pass

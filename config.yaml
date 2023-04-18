@@ -4,17 +4,13 @@ variableName: Variables
 languages:
   - Dutch-NL:
       locale: nl-NL
-#      stringsPath: ~
-      stringsPath: /Users/bartpeereboom/Documents/Projects/translation-manager-python/output/nl-Localizable.strings
+#      stringsPath: /Users/bartpeereboom/Documents/Projects/translation-manager-python/output/nl-Localizable.strings
       xmlPath: ~
   - French-FR:
       locale: fr-FR
-#      stringsPath: ~
       stringsPath: /Users/bartpeereboom/Documents/Projects/translation-manager-python/output/fr-Localizable.strings
       xmlPath: ~
   - German-DE:
       locale: de-DE
-#      stringsPath: ~
       stringsPath: /Users/bartpeereboom/Documents/Projects/translation-manager-python/output/de-Localizable.strings
       xmlPath: /Users/bartpeereboom/Documents/Projects/translation-manager-python/output/de-strings.xml
-#      xmlPath: ~
