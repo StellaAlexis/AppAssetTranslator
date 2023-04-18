@@ -85,34 +85,17 @@ def generate_csv_from_resource_files(languages):
     t2 = [['yes', 'oui'], ['no', 'non']]
     t3 = [['yes', 'ja'], ['no', 'nee']]
 
-    locales = ['de-DE', 'fr-FR', 'nl-NL']
-
-    language_list = [generate_dataframe_from_list(x, y) for x, y in zip([t, t2, t3], locales)]
-
-    # final_pd = pd.DataFrame(data=['yes', 'no'], columns=['Key'])
-
     df_1 = pd.DataFrame(data=t, columns=['Key', 'de-DE'])
     df_2 = pd.DataFrame(data=t2, columns=['Key', 'fr-FR'])
     df_3 = pd.DataFrame(data=t3, columns=['Key', 'nl-NL'])
 
     dfs = [df_1, df_2, df_3]
-    [print(f"{x.head()}\n") for x in dfs]
-    # [print(f"{x.head()}\n") for x in language_list]
+    final_pd = pd.DataFrame(data=[], columns=['Key'])
 
-    final_pd = language_list[0]
+    for x in dfs:
+        final_pd = pd.merge(left=final_pd, right=x, on='Key', how='outer')
 
-    for x in language_list:
-        # final_pd = pd.merge(left=final_pd, right=x, right_on='Key', left_on='Key', how='left')
-        final_pd = pd.merge(left=final_pd, right=x)
-
-    # [pd.merge(left=final_pd, right=x, right_on='Key', left_on='Key', how='left') for x in dfs]
-    # print(f'{final_pd.head()}')
-    #
-    # new_df = pd.merge(left=df_1, right=df_2, right_on="Key", left_on="Key", how="left")
-    # new_df = pd.merge(left=new_df, right=df_3, right_on="Key", left_on="Key", how="left")
-    # print(new_df.head())
-    #
-    # new_df.to_csv(config[KEY_CONFIG_OUTPUT_PATH], index=False, sep=';', encoding='utf-8')
+    final_pd.to_csv(config[KEY_CONFIG_OUTPUT_PATH], index=False, sep=';', encoding='utf-8')
     print("Generated csv!")
 
 
