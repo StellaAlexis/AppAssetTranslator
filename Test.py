@@ -1,17 +1,10 @@
 import yaml
 import pandas as pd
-import xml.etree.ElementTree as ET
-
-KEY_CONFIG_TRANSLATION_FILE_PATH = "translationFile"
-KEY_CONFIG_SUPPORTED_LANGUAGES = "languages"
-KEY_CONFIG_VARIABLE_NAME = "variableName"
-KEY_CONFIG_LOCALE = "locale"
-KEY_CONFIG_STRINGS_PATH = "stringsPath"
-KEY_CONFIG_XML_PATH = "xmlPath"
-KEY_CONFIG_OUTPUT_PATH = "outputFile"
+import xml.etree.ElementTree as Et
+import Constants
 
 config = yaml.safe_load(open("config.yaml"))
-dataframe = pd.read_csv(f"{config[KEY_CONFIG_TRANSLATION_FILE_PATH]}", delimiter=";")
+dataframe = pd.read_csv(f"{config[Constants.KEY_CONFIG_TRANSLATION_FILE_PATH]}", delimiter=";")
 print(dataframe.head())
 print()
 
@@ -33,8 +26,8 @@ def get_language_details(language):
     current_language_key = list(language.keys())[0]
     language = language[current_language_key]
 
-    string_path = language[KEY_CONFIG_STRINGS_PATH]
-    xml_path = language[KEY_CONFIG_XML_PATH]
+    string_path = language[Constants.KEY_CONFIG_STRINGS_PATH]
+    xml_path = language[Constants.KEY_CONFIG_XML_PATH]
 
     if xml_path is None and string_path is None:
         pass
@@ -43,23 +36,20 @@ def get_language_details(language):
 
 
 def get_languages():
-    language_list = [get_language_details(x) for x in config[KEY_CONFIG_SUPPORTED_LANGUAGES]]
+    language_list = [get_language_details(x) for x in config[Constants.KEY_CONFIG_SUPPORTED_LANGUAGES]]
     return remove_none_values(language_list)
 
 
 def generate_language_resource_files(language):
-    locale = language[KEY_CONFIG_LOCALE]
-    string_path = language[KEY_CONFIG_STRINGS_PATH]
-    xml_path = language[KEY_CONFIG_XML_PATH]
-
-    keys_df = dataframe[config[KEY_CONFIG_VARIABLE_NAME]]
-    # print(keys_df.head())
+    locale = language[Constants.KEY_CONFIG_LOCALE]
+    string_path = language[Constants.KEY_CONFIG_STRINGS_PATH]
+    xml_path = language[Constants.KEY_CONFIG_XML_PATH]
 
     if string_path is not None:
         f = open(string_path, "w")
 
         results = [create_ios_string_mapping(x, y) for x, y in
-                   zip(dataframe[config[KEY_CONFIG_VARIABLE_NAME]], dataframe[locale])]
+                   zip(dataframe[config[Constants.KEY_CONFIG_VARIABLE_NAME]], dataframe[locale])]
 
         [f.write(f"{x}\n") for x in results]
 
@@ -71,7 +61,7 @@ def generate_language_resource_files(language):
         f.write("<resources>\n")
 
         results = [create_android_string_mapping(x, y) for x, y in
-                   zip(dataframe[config[KEY_CONFIG_VARIABLE_NAME]], dataframe[locale])]
+                   zip(dataframe[config[Constants.KEY_CONFIG_VARIABLE_NAME]], dataframe[locale])]
         [f.write(f"{x}\n") for x in results]
 
         f.write("</resources>")
@@ -105,7 +95,7 @@ def ios_get_key_value_from_line(line):
 
 
 def android_get_key_values_from_xml(xml_path):
-    tree = ET.parse(xml_path)
+    tree = Et.parse(xml_path)
     root = tree.getroot()
 
     key_value_list = []
@@ -126,24 +116,24 @@ def generate_csv_from_resource_files(languages):
     final_pd = pd.DataFrame(data=[], columns=['Key'])
 
     for current_language in languages:
-        if current_language[KEY_CONFIG_STRINGS_PATH] is not None:
+        if current_language[Constants.KEY_CONFIG_STRINGS_PATH] is not None:
             key_list = []
 
-            f = open(current_language[KEY_CONFIG_STRINGS_PATH], 'r')
+            f = open(current_language[Constants.KEY_CONFIG_STRINGS_PATH], 'r')
 
             for line in f.readlines():
                 key_list += ios_get_key_value_from_line(line)
 
             # Transform the key/value list to a dataframe, and merge it into the 'main' dataframe
-            df = pd.DataFrame(data=key_list, columns=['Key', current_language[KEY_CONFIG_LOCALE]])
+            df = pd.DataFrame(data=key_list, columns=['Key', current_language[Constants.KEY_CONFIG_LOCALE]])
             final_pd = pd.merge(left=final_pd, right=df, how='outer')
-        if current_language[KEY_CONFIG_XML_PATH] is not None:
-            key_list = android_get_key_values_from_xml(current_language[KEY_CONFIG_XML_PATH])
+        if current_language[Constants.KEY_CONFIG_XML_PATH] is not None:
+            key_list = android_get_key_values_from_xml(current_language[Constants.KEY_CONFIG_XML_PATH])
 
-            df = pd.DataFrame(data=key_list, columns=['Key', current_language[KEY_CONFIG_LOCALE]])
+            df = pd.DataFrame(data=key_list, columns=['Key', current_language[Constants.KEY_CONFIG_LOCALE]])
             final_pd = pd.merge(left=final_pd, right=df, how='outer')
 
-    final_pd.to_csv(config[KEY_CONFIG_OUTPUT_PATH], index=False, sep=';', encoding='utf-8')
+    final_pd.to_csv(config[Constants.KEY_CONFIG_OUTPUT_PATH], index=False, sep=';', encoding='utf-8')
     print("Generated csv!")
 
 
