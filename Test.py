@@ -80,26 +80,52 @@ def generate_dataframe_from_list(data, locale):
     return pd.DataFrame(data=data, columns=['Key', locale])
 
 
+def ios_get_key_value_from_line(line):
+    # Remove potential whitespaces at the start/end of the string
+    modified_string = line.strip()
+
+    # Remove the last character: "Yes" = "Ja"; -> "Yes" = "Ja"
+    modified_string = modified_string[:-1]
+
+    # Split the string to key/value: "Yes" = "Ja" -> ['"Yes" ', ' "Ja"']
+    modified_string = modified_string.split('=')
+
+    # Remove the first and last values of the key
+    key = modified_string[0].strip()
+
+    # The key can not contain '=', thus the value contains a combination of all possible entries
+    value = ''.join(modified_string[1:]).strip()
+
+    # Remove the first & last characters ('"'): "Yes" -> Yes & "No" -> No
+    key = key[1:-1]
+    value = value[1:-1]
+
+    return [[key, value]]
+
+
 def generate_csv_from_resource_files(languages):
-    t = [['yes', 'ja'], ['no', 'nein'], ['Greeting', 'Hello']]
-    t2 = [['yes', 'oui'], ['no', 'non']]
-    t3 = [['yes', 'ja'], ['no', 'nee']]
-
-    df_1 = pd.DataFrame(data=t, columns=['Key', 'de-DE'])
-    df_2 = pd.DataFrame(data=t2, columns=['Key', 'fr-FR'])
-    df_3 = pd.DataFrame(data=t3, columns=['Key', 'nl-NL'])
-
-    dfs = [df_1, df_2, df_3]
     final_pd = pd.DataFrame(data=[], columns=['Key'])
 
-    for x in dfs:
-        final_pd = pd.merge(left=final_pd, right=x, on='Key', how='outer')
+    for current_language in languages:
+        if current_language[KEY_CONFIG_STRINGS_PATH] is not None:
+            key_list = []
+
+            f = open(current_language[KEY_CONFIG_STRINGS_PATH], 'r')
+
+            for line in f.readlines():
+                key_list += ios_get_key_value_from_line(line)
+
+            # Transform the key/value list to a dataframe, and merge it into the 'main' dataframe
+            df = pd.DataFrame(data=key_list, columns=['Key', current_language[KEY_CONFIG_LOCALE]])
+            final_pd = pd.merge(left=final_pd, right=df, on='Key', how='outer')
+        if current_language[KEY_CONFIG_XML_PATH] is not None:
+            print('xml path was not null!')
 
     final_pd.to_csv(config[KEY_CONFIG_OUTPUT_PATH], index=False, sep=';', encoding='utf-8')
     print("Generated csv!")
 
 
 result = get_languages()
-[generate_language_resource_files(x) for x in result]
+# [generate_language_resource_files(x) for x in result]
 
 generate_csv_from_resource_files(result)
