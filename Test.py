@@ -1,5 +1,6 @@
 import yaml
 import pandas as pd
+import xml.etree.ElementTree as ET
 
 KEY_CONFIG_TRANSLATION_FILE_PATH = "translationFile"
 KEY_CONFIG_SUPPORTED_LANGUAGES = "languages"
@@ -94,13 +95,31 @@ def ios_get_key_value_from_line(line):
     key = modified_string[0].strip()
 
     # The key can not contain '=', thus the value contains a combination of all possible entries
-    value = ''.join(modified_string[1:]).strip()
+    value = '='.join(modified_string[1:]).strip()
 
     # Remove the first & last characters ('"'): "Yes" -> Yes & "No" -> No
     key = key[1:-1]
     value = value[1:-1]
 
     return [[key, value]]
+
+
+def android_get_key_values_from_xml(xml_path):
+    tree = ET.parse(xml_path)
+    root = tree.getroot()
+
+    key_value_list = []
+
+    for item in root:
+        # E.g: <string name="Yes">Ja</string> -> Key = Yes
+        key = item.attrib["name"]
+
+        # E.g: <string name="Yes">Ja</string> -> value = Ja
+        value = item.text
+
+        key_value_list += [[key, value]]
+
+    return key_value_list
 
 
 def generate_csv_from_resource_files(languages):
@@ -117,9 +136,12 @@ def generate_csv_from_resource_files(languages):
 
             # Transform the key/value list to a dataframe, and merge it into the 'main' dataframe
             df = pd.DataFrame(data=key_list, columns=['Key', current_language[KEY_CONFIG_LOCALE]])
-            final_pd = pd.merge(left=final_pd, right=df, on='Key', how='outer')
+            final_pd = pd.merge(left=final_pd, right=df, how='outer')
         if current_language[KEY_CONFIG_XML_PATH] is not None:
-            print('xml path was not null!')
+            key_list = android_get_key_values_from_xml(current_language[KEY_CONFIG_XML_PATH])
+
+            df = pd.DataFrame(data=key_list, columns=['Key', current_language[KEY_CONFIG_LOCALE]])
+            final_pd = pd.merge(left=final_pd, right=df, how='outer')
 
     final_pd.to_csv(config[KEY_CONFIG_OUTPUT_PATH], index=False, sep=';', encoding='utf-8')
     print("Generated csv!")
