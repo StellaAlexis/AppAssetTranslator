@@ -4,8 +4,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name='myler_translator',
-    packages=['myler_translator'],
+    name='app_asset_translator',
+    packages=['app_asset_translator'],
     version='0.0.1',
     license='GNU GPLv3',
     description='Filler description',
@@ -19,6 +19,6 @@ setuptools.setup(
     download_url='url/to/source/code',
     entry_points='''
         [console_scripts]
-        myler_translator=myler_translator.scripts.translator_scripts:main
+        app_asset_translator=app_asset_translator.scripts.translator_scripts:main
     '''
 )

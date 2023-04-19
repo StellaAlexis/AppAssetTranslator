@@ -1,5 +1,5 @@
-from myler_translator import ConfigUtil
-from myler_translator import Constants
+from app_asset_translator import ConfigUtil
+from app_asset_translator import Constants
 
 
 def create_ios_resource_string(key, value):

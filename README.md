@@ -2,7 +2,7 @@
 
 ## Getting started
 To install the package, a simple command can be used within the desired python environment:
-`pip install myler_translator`
+`pip install app_asset_translator`
 
 ## Preparation
 To ensure the package can be used properly, some files should be prepared beforehand. 
@@ -17,9 +17,9 @@ An example of this `config.yaml` file can be found within this project.
 ## Usage
 Using the terminal, with the desired Python environment activated, the following commands can be used;
 ````commandline
-myler_translator csv
-myler_translator resources
-myler_translator -h
+app_asset_translator csv
+app_asset_translator resources
+app_asset_translator -h
 ````
 
 # Libraries

@@ -1,11 +1,11 @@
 import argparse
 import pandas as pd
 
-from myler_translator import LanguageUtil
-from myler_translator import ConfigUtil
-from myler_translator import Constants
-from myler_translator.GenerateCsvFromResources import generate_csv_from_resource_files
-from myler_translator.GenerateResourcesFromCsv import generate_resource_file_for_language
+from app_asset_translator import LanguageUtil
+from app_asset_translator import ConfigUtil
+from app_asset_translator import Constants
+from app_asset_translator.GenerateCsvFromResources import generate_csv_from_resource_files
+from app_asset_translator.GenerateResourcesFromCsv import generate_resource_file_for_language
 
 
 def generate_csv():
