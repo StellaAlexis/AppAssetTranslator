@@ -5,7 +5,7 @@ languages:
   - Dutch-NL:
       locale: nl-NL
       stringsPath: /Users/bartpeereboom/Desktop/output/nl-Localizable.strings
-      xmlPath: /Users/bartpeereboom/Desktop/output/fr-strings.xml
+      xmlPath: /Users/bartpeereboom/Desktop/output/nl-strings.xml
   - French-FR:
       locale: fr-FR
       stringsPath: /Users/bartpeereboom/Desktop/output/fr-Localizable.strings
