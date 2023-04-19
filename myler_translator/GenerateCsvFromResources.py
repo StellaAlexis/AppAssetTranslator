@@ -48,7 +48,9 @@ def android_get_key_values_from_xml(xml_path):
 
 
 def generate_csv_from_resource_files(languages):
-    final_pd = pd.DataFrame(data=[], columns=['Key'])
+    key_column_name = ConfigUtil.get_config()[Constants.KEY_CONFIG_VARIABLE_NAME]
+
+    final_pd = pd.DataFrame(data=[], columns=[key_column_name])
 
     for current_language in languages:
         if current_language[Constants.KEY_CONFIG_STRINGS_PATH] is not None:
@@ -60,12 +62,12 @@ def generate_csv_from_resource_files(languages):
                 key_list += ios_get_key_value_from_line(line)
 
             # Transform the key/value list to a dataframe, and merge it into the 'main' dataframe
-            df = pd.DataFrame(data=key_list, columns=['Key', current_language[Constants.KEY_CONFIG_LOCALE]])
+            df = pd.DataFrame(data=key_list, columns=[key_column_name, current_language[Constants.KEY_CONFIG_LOCALE]])
             final_pd = pd.merge(left=final_pd, right=df, how='outer')
         if current_language[Constants.KEY_CONFIG_XML_PATH] is not None:
             key_list = android_get_key_values_from_xml(current_language[Constants.KEY_CONFIG_XML_PATH])
 
-            df = pd.DataFrame(data=key_list, columns=['Key', current_language[Constants.KEY_CONFIG_LOCALE]])
+            df = pd.DataFrame(data=key_list, columns=[key_column_name, current_language[Constants.KEY_CONFIG_LOCALE]])
             final_pd = pd.merge(left=final_pd, right=df, how='outer')
 
     final_pd.to_csv(ConfigUtil.get_config()[Constants.KEY_CONFIG_OUTPUT_PATH], index=False, sep=';', encoding='utf-8')
