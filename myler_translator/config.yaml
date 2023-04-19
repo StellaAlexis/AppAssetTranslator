@@ -1,0 +1,16 @@
+translationFile: /Users/bartpeereboom/Documents/Projects/translation-manager-python/translations.csv
+outputFile: /Users/bartpeereboom/Desktop/output/output.csv
+variableName: Variables
+languages:
+  - Dutch-NL:
+      locale: nl-NL
+      stringsPath: /Users/bartpeereboom/Desktop/output/nl-Localizable.strings
+      xmlPath: /Users/bartpeereboom/Desktop/output/fr-strings.xml
+  - French-FR:
+      locale: fr-FR
+      stringsPath: /Users/bartpeereboom/Desktop/output/fr-Localizable.strings
+      xmlPath: /Users/bartpeereboom/Desktop/output/fr-strings.xml
+  - German-DE:
+      locale: de-DE
+      stringsPath: /Users/bartpeereboom/Desktop/output/de-Localizable.strings
+      xmlPath: /Users/bartpeereboom/Desktop/output/de-strings.xml
