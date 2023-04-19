@@ -1,5 +1,5 @@
-import ConfigUtil
-import Constants
+from myler_translator import ConfigUtil
+from myler_translator import Constants
 
 
 def remove_none_values(value_list):

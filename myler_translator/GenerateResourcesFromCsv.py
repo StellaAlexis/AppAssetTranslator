@@ -1,8 +1,5 @@
-import pandas as pd
-
-import ConfigUtil
-import Constants
-import LanguageUtil
+from myler_translator import ConfigUtil
+from myler_translator import Constants
 
 
 def create_ios_resource_string(key, value):
@@ -24,16 +21,18 @@ def create_android_resource_string(key, value):
         return f"    <string name=\"{key}\">{value}</string>"
 
 
-def generate_resource_file_for_language(language):
+def generate_resource_file_for_language(language, given_df):
     locale = language[Constants.KEY_CONFIG_LOCALE]
     string_path = language[Constants.KEY_CONFIG_STRINGS_PATH]
     xml_path = language[Constants.KEY_CONFIG_XML_PATH]
+
+    config = ConfigUtil.get_config()
 
     if string_path is not None:
         f = open(string_path, "w")
 
         results = [create_ios_resource_string(x, y) for x, y in
-                   zip(dataframe[config[Constants.KEY_CONFIG_VARIABLE_NAME]], dataframe[locale])]
+                   zip(given_df[config[Constants.KEY_CONFIG_VARIABLE_NAME]], given_df[locale])]
 
         [write_resource_to_file(f, x) for x in results]
 
@@ -45,14 +44,7 @@ def generate_resource_file_for_language(language):
         f.write("<resources>\n")
 
         results = [create_android_resource_string(x, y) for x, y in
-                   zip(dataframe[config[Constants.KEY_CONFIG_VARIABLE_NAME]], dataframe[locale])]
+                   zip(given_df[config[Constants.KEY_CONFIG_VARIABLE_NAME]], given_df[locale])]
         [write_resource_to_file(f, x) for x in results]
 
         f.write("</resources>")
-
-
-config = ConfigUtil.get_config()
-dataframe = pd.read_csv(f"{config[Constants.KEY_CONFIG_TRANSLATION_FILE_PATH]}", delimiter=";")
-
-languages = LanguageUtil.get_languages()
-[generate_resource_file_for_language(language) for language in languages]

@@ -1,16 +1,21 @@
-translationFile: /Users/bartpeereboom/Documents/Projects/translation-manager-python/translations.csv
-outputFile: /Users/bartpeereboom/Desktop/output/output.csv
-variableName: Variables
+translationFile: path/to/supplied/csv
+outputFile: path/to/desired/output/csv
+variableName: Key
+# Languages can be added, depending on the requirement
 languages:
+  # Locale will be used to determine datasets within the CSV
+  # File paths will be used for both reading (generating a CSV) as writing (creating resource files)
+  # stringsPath / xmlPath can be commented out or be left empty using '~' when not required
   - Dutch-NL:
       locale: nl-NL
-      stringsPath: /Users/bartpeereboom/Desktop/output/nl-Localizable.strings
-      xmlPath: /Users/bartpeereboom/Desktop/output/nl-strings.xml
+      stringsPath: path/to/strings/file
+      xmlPath: path/to/xml/file
   - French-FR:
       locale: fr-FR
-      stringsPath: /Users/bartpeereboom/Desktop/output/fr-Localizable.strings
-      xmlPath: /Users/bartpeereboom/Desktop/output/fr-strings.xml
+      stringsPath: path/to/strings/file
+      xmlPath: path/to/xml/file
   - German-DE:
       locale: de-DE
-      stringsPath: /Users/bartpeereboom/Desktop/output/de-Localizable.strings
-      xmlPath: /Users/bartpeereboom/Desktop/output/de-strings.xml
+      stringsPath: path/to/strings/file
+#      xmlPath: path/to/xml/file
+#      xmlPath: ~

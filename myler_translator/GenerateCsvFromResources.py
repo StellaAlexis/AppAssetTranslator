@@ -1,9 +1,8 @@
 import xml.etree.ElementTree as Et
 import pandas as pd
 
-import ConfigUtil
-import Constants
-import LanguageUtil
+from myler_translator import ConfigUtil
+from myler_translator import Constants
 
 
 def ios_get_key_value_from_line(line):
@@ -72,7 +71,3 @@ def generate_csv_from_resource_files(languages):
 
     final_pd.to_csv(ConfigUtil.get_config()[Constants.KEY_CONFIG_OUTPUT_PATH], index=False, sep=';', encoding='utf-8')
     print("Generated csv!")
-
-
-result = LanguageUtil.get_languages()
-generate_csv_from_resource_files(result)
