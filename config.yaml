@@ -1,5 +1,5 @@
-translationFile: path/to/supplied/csv
-outputFile: path/to/desired/output/csv
+translationFile: path/to/supplied/csv/file
+outputFile: path/to/desired/csv/output/file
 variableName: Key
 # Languages can be added, depending on the requirement
 languages:
@@ -8,14 +8,13 @@ languages:
   # stringsPath / xmlPath can be commented out or be left empty using '~' when not required
   - Dutch-NL:
       locale: nl-NL
-      stringsPath: path/to/strings/file
-      xmlPath: path/to/xml/file
+      stringsPath: ~
+      xmlPath: ~
   - French-FR:
       locale: fr-FR
-      stringsPath: path/to/strings/file
-      xmlPath: path/to/xml/file
+      stringsPath: ~
+      xmlPath: ~
   - German-DE:
       locale: de-DE
-      stringsPath: path/to/strings/file
-#      xmlPath: path/to/xml/file
-#      xmlPath: ~
+      stringsPath: path/to/ios/strings/file
+      xmlPath: path/to/android/strings/file
