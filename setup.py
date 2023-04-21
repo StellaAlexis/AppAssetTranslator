@@ -19,6 +19,6 @@ setuptools.setup(
     download_url='url/to/source/code',
     entry_points='''
         [console_scripts]
-        app_asset_translator=app_asset_translator.scripts.translator_scripts:main
+        app-asset-translator=app_asset_translator.scripts.translator_scripts:main
     '''
 )
