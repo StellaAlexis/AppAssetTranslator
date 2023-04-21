@@ -8,13 +8,13 @@ languages:
   # stringsPath / xmlPath can be commented out or be left empty using '~' when not required
   - Dutch-NL:
       locale: nl-NL
-      stringsPath: ~
-      xmlPath: ~
+      stringsPath: path/to/ios/strings/file
+      xmlPath: path/to/android/strings/file
   - French-FR:
       locale: fr-FR
-      stringsPath: ~
-      xmlPath: ~
+#      stringsPath: path/to/ios/strings/file
+      xmlPath: path/to/android/strings/file
   - German-DE:
       locale: de-DE
-      stringsPath: path/to/ios/strings/file
+#      stringsPath: path/to/ios/strings/file
       xmlPath: path/to/android/strings/file
