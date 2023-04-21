@@ -16,7 +16,7 @@ def generate_csv():
 
 def generate_resources():
     config = ConfigUtil.get_config()
-    dataframe = pd.read_csv(f"{config[Constants.KEY_CONFIG_TRANSLATION_FILE_PATH]}", delimiter=";")
+    dataframe = pd.read_csv(f'{config[Constants.KEY_CONFIG_TRANSLATION_FILE_PATH]}', delimiter=';', doublequote=True)
 
     languages = LanguageUtil.get_languages()
     [generate_resource_file_for_language(language, dataframe) for language in languages]
