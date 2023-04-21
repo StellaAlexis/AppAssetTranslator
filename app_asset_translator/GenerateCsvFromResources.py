@@ -1,3 +1,4 @@
+import csv
 import xml.etree.ElementTree as Et
 import pandas as pd
 
@@ -69,4 +70,5 @@ def generate_csv_from_resource_files(languages):
             df = pd.DataFrame(data=key_list, columns=[key_column_name, current_language[Constants.KEY_CONFIG_LOCALE]])
             final_pd = pd.merge(left=final_pd, right=df, how='outer')
 
-    final_pd.to_csv(ConfigUtil.get_config()[Constants.KEY_CONFIG_OUTPUT_PATH], index=False, sep=';', encoding='utf-8')
+    final_pd.to_csv(ConfigUtil.get_config()[Constants.KEY_CONFIG_OUTPUT_PATH], index=False, sep=';', encoding='utf-8',
+                    quotechar='"', quoting=csv.QUOTE_ALL)
