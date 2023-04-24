@@ -1,0 +1,20 @@
+translationFile: path/to/supplied/csv/file
+outputFile: path/to/desired/csv/output/file
+variableName: Key
+# Languages can be added, depending on the requirement
+languages:
+  # Locale will be used to determine datasets within the CSV
+  # File paths will be used for both reading (generating a CSV) as writing (creating resource files)
+  # stringsPath / xmlPath can be commented out or be left empty using '~' when not required
+  - Dutch-NL:
+      locale: nl-NL
+      stringsPath: path/to/ios/strings/file
+      xmlPath: path/to/android/strings/file
+  - French-FR:
+      locale: fr-FR
+#      stringsPath: path/to/ios/strings/file
+      xmlPath: path/to/android/strings/file
+  - German-DE:
+      locale: de-DE
+#      stringsPath: path/to/ios/strings/file
+      xmlPath: path/to/android/strings/file
