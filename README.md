@@ -17,9 +17,9 @@ An example of this `config.yaml` file can be found within this project.
 ## Usage
 Using the terminal, with the desired Python environment activated, the following commands can be used;
 ````commandline
-app_asset_translator csv
-app_asset_translator resources
-app_asset_translator -h
+app-asset-translator csv
+app-asset-translator resources
+app-asset-translator -h
 ````
 
 # Libraries

@@ -1,9 +1,9 @@
-from setuptools import find_packages, setup
+import setuptools
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-setup(
+setuptools.setup(
     name='app_asset_translator',
     packages=['app_asset_translator'],
     version='0.0.1',
