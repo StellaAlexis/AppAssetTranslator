@@ -10,6 +10,7 @@ from app_asset_translator.GenerateResourcesFromCsv import generate_resource_file
 
 def generate_csv():
     result = LanguageUtil.get_languages()
+    print(f"Found languages: {result}")
     generate_csv_from_resource_files(result)
     print('CSV has been generated!')
 
@@ -25,8 +26,9 @@ def generate_resources():
 
 def main():
     # Define the default parser
-    parser = argparse.ArgumentParser(description='Use the translation service to generate CSV or Android/iOS Resource '
+    parser = argparse.ArgumentParser(description='Use the translation service to generate CSV or Web(Angular and React)/Android/iOS Resource '
                                                  'files')
+
     # Initialize the sub parsers (csv / resource commands)
     subparsers = parser.add_subparsers(dest='operation', help='Choose an operation')
 
@@ -38,6 +40,13 @@ def main():
     resource_parser.set_defaults(func=generate_resources)
 
     # parser.add_argument('-v', '--verbose', action='store_true', help='increase verbosity')
+
+    # Add config parameter
+    parser.add_argument('--config', help='Path to config file')
+
     args = parser.parse_args()
+    if hasattr(args, 'config'):
+        ConfigUtil.config_path = args.config
+
     # Run the function which has been added to the arguments
     args.func()

@@ -1,10 +1,30 @@
 import csv
+import json
 import xml.etree.ElementTree as Et
 import pandas as pd
 
 from app_asset_translator import ConfigUtil
 from app_asset_translator import Constants
 
+def web_get_key_values_from_json(json_path):
+    print("Loading file: {json_path}")
+    with open(json_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    print("Loaded data: {data}")
+
+    key_value_list = []
+
+    def process_nested(obj, prefix=''):
+        for key, value in obj.items():
+            if isinstance(value, dict):
+                process_nested(value, f"{prefix}{key}_" if prefix else f"{key}_")
+            else:
+                final_key = f"{prefix}{key}".replace('.', '_')
+                key_value_list.append([final_key, value])
+
+    process_nested(data)
+    print("Flattened data: {key_value_list}")
+    return key_value_list
 
 def ios_get_key_value_from_line(line):
     # Remove potential whitespaces at the start/end of the string
@@ -53,7 +73,9 @@ def generate_csv_from_resource_files(languages):
     final_pd = pd.DataFrame(data=[], columns=[key_column_name])
 
     for current_language in languages:
-        if current_language[Constants.KEY_CONFIG_STRINGS_PATH] is not None:
+        print("Start generating csv file for language: {current_language}")
+        if Constants.KEY_CONFIG_STRINGS_PATH in current_language and current_language[
+            Constants.KEY_CONFIG_STRINGS_PATH] is not None:
             key_list = []
 
             f = open(current_language[Constants.KEY_CONFIG_STRINGS_PATH], 'r')
@@ -64,8 +86,17 @@ def generate_csv_from_resource_files(languages):
             # Transform the key/value list to a dataframe, and merge it into the 'main' dataframe
             df = pd.DataFrame(data=key_list, columns=[key_column_name, current_language[Constants.KEY_CONFIG_LOCALE]])
             final_pd = pd.merge(left=final_pd, right=df, how='outer')
-        if current_language[Constants.KEY_CONFIG_XML_PATH] is not None:
+        if Constants.KEY_CONFIG_XML_PATH in current_language and current_language[
+            Constants.KEY_CONFIG_XML_PATH] is not None:
             key_list = android_get_key_values_from_xml(current_language[Constants.KEY_CONFIG_XML_PATH])
+
+            df = pd.DataFrame(data=key_list, columns=[key_column_name, current_language[Constants.KEY_CONFIG_LOCALE]])
+            final_pd = pd.merge(left=final_pd, right=df, how='outer')
+
+        if Constants.KEY_CONFIG_JSON_PATH in current_language and current_language[
+            Constants.KEY_CONFIG_JSON_PATH] is not None:
+            print("Start generating csv file: {current_language[Constants.KEY_CONFIG_JSON_PATH]}")
+            key_list = web_get_key_values_from_json(current_language[Constants.KEY_CONFIG_JSON_PATH])
 
             df = pd.DataFrame(data=key_list, columns=[key_column_name, current_language[Constants.KEY_CONFIG_LOCALE]])
             final_pd = pd.merge(left=final_pd, right=df, how='outer')

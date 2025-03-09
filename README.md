@@ -2,7 +2,7 @@
 
 ## Getting started
 To install the package, a simple command can be used within the desired python environment:
-`pip install app_asset_translator`
+`pipx install app_asset_translator`
 
 ## Preparation
 To ensure the package can be used properly, some files should be prepared beforehand. 

@@ -10,6 +10,7 @@ languages:
       locale: nl-NL
       stringsPath: path/to/ios/strings/file
       xmlPath: path/to/android/strings/file
+      jsonPath: path/to/web/json/file
   - French-FR:
       locale: fr-FR
 #      stringsPath: path/to/ios/strings/file
