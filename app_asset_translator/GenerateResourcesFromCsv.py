@@ -6,7 +6,7 @@ def create_ios_resource_string(key, value):
     if str(value) == "nan":
         pass
     else:
-        return f"\"{key}\" = \"{value}\";"
+        return f"\"{key}\" = \"{value.strip()}\";"
 
 
 def write_resource_to_file(writer, value):
@@ -18,7 +18,7 @@ def create_android_resource_string(key, value):
     if str(value) == "nan":
         pass
     else:
-        return f"    <string name=\"{key}\">{value}</string>"
+        return f"    <string name=\"{key}\">{value.strip()}</string>"
 
 def generate_resource_file_for_language(language, given_df):
     locale = language[Constants.KEY_CONFIG_LOCALE]
@@ -58,7 +58,7 @@ def generate_resource_file_for_language(language, given_df):
             current = result
             for i, part in enumerate(parts):
                 if i == len(parts) - 1:
-                    current[part] = value
+                    current[part] = value.strip()
                 else:
                     if part not in current:
                         current[part] = {}
